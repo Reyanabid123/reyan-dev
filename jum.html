@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Background</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            background: url(img/karl-anderson-7zg5bnhm2X0-unsplash.jpg);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        .main-div {
+            position: relative;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+            width: 100%;
+            margin-top: 10vh;
+            border-radius: 2vw;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .profilo-div {
+            margin-left: 70%;
+            height: 43vh;
+            width: 23vw;
+            margin-top: 30%;
+            border-radius: 50%;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            overflow: hidden;
+            /* Ensure the image fits within the border radius */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profilo-div img {
+            height: 100%;
+            /* Adjust image size to fit the div */
+            width: auto;
+        }
+
+        .add-image-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: black;
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-div">
+        <div class="profilo-div" id="profiloDiv">
+            <img src="https://static.vecteezy.com/system/resources/previews/030/701/095/large_2x/lion-background-hd-free-photo.jpg"
+                alt="..." id="profileImage">
+        </div>
+        <button class="add-image-btn" id="addImageBtn">+</button>
+        <input type="file" id="imageInput" accept="image/*">
+    </div>
+
+    <script>
+        const profiloDiv = document.getElementById('profiloDiv');
+        const addImageBtn = document.getElementById('addImageBtn');
+        const imageInput = document.getElementById('imageInput');
+        const profileImage = document.getElementById('profileImage');
+
+        addImageBtn.addEventListener('click', () => imageInput.click());
+
+        imageInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    profileImage.src = e.target.result;
+                    // Optionally, store the image in sessionStorage
+                    sessionStorage.setItem('profileBgImage', e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Optional: Load the image from sessionStorage on page load
+        window.addEventListener('load', () => {
+            const storedImage = sessionStorage.getItem('profileBgImage');
+            if (storedImage) {
+                profileImage.src = storedImage;
+            }
+        });
+    </script>
+
+</body>
+
+</html>
